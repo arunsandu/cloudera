@@ -35,10 +35,10 @@ gpgkey=https://<hostname>/cloudera-repos/cm6/6.1.1/redhat7/yum/RPM-GPG-KEY-cloud
 gpgcheck=1
 enabled=1
 autorefresh=0
-type=rpm-md
+type=rpm-md " | sudo tee -a  /etc/yum.repos.d/cloudera-manager.repo > /dev/null
 
-Vm.swapiness to 1:
-sysctl -w vm.swappiness=1"  | sudo tee -a  /etc/yum.repos.d/cloudera-manager.repo > /dev/null
+## Vm.swapiness to 1:
+sysctl -w vm.swappiness=1  
 
      
 ##  Installing cloudera manager
