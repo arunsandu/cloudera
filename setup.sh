@@ -7,42 +7,43 @@ chkconfig https on
 service httpd start
 service httpd status
 
-## Download cloudera-manager repositories (6.0.1)
+## Download cloudera-manager repositories (6.1.1)
 mkdir -p /var/www/html/cloudera-repos
-wget --recursive --no-parent --no-host-directories https://archive.cloudera.com/cm6/6.0.1/redhat7/ -P /var/www/html/cloudera-repos
-wget --recursive --no-parent --no-host-directories https://archive.cloudera.com/cm6/6.0.1/allkeys.asc -P /var/www/html/cloudera-repos
+wget --recursive --no-parent --no-host-directories https://archive.cloudera.com/cm6/6.1.1/redhat7/ -P /var/www/html/cloudera-repos
+wget --recursive --no-parent --no-host-directories https://archive.cloudera.com/cm6/6.1.1/allkeys.asc -P /var/www/html/cloudera-repos
 chmod -R ugo+rX /var/www/html/cloudera-repos/cm6
 
-## Download CDH 6.0.1
-wget --recursive --no-parent --no-host-directories https://archive.cloudera.com/cdh6/6.0.1/redhat7/yum/ -P /var/www/html/cloudera-repos
-wget --recursive --no-parent --no-host-directories https://archive.cloudera.com/gplextras6/6.0.1/redhat7/ -P /var/www/html/cloudera-repos
+## Download CDH 6.1.1
+wget --recursive --no-parent --no-host-directories https://archive.cloudera.com/cdh6/6.1.1/redhat7/yum/ -P /var/www/html/cloudera-repos
+wget --recursive --no-parent --no-host-directories https://archive.cloudera.com/gplextras6/6.1.1/redhat7/ -P /var/www/html/cloudera-repos
 chmod -R ugo+rX /var/www/html/cloudera-repos/cdh6
 chmod -R ugo+rX /var/www/html/cloudera-repos/gplextras6
 
 ## Parcles Installation:
-wget --recursive --no-parent --no-host-directories https://archive.cloudera.com/cdh6/6.0.1/parcels/ -P /var/www/html/cloudera-repos
-wget --recursive --no-parent --no-host-directories https://archive.cloudera.com/gplextras6/6.0.1/parcels/ -P /var/www/html/cloudera-repos
+wget --recursive --no-parent --no-host-directories https://archive.cloudera.com/cdh6/6.1.1/parcels/ -P /var/www/html/cloudera-repos
+wget --recursive --no-parent --no-host-directories https://archive.cloudera.com/gplextras6/6.1.1/parcels/ -P /var/www/html/cloudera-repos
 chmod -R ugo+rX /var/www/html/cloudera-repos/cdh6
 chmod -R ugo+rX /var/www/html/cloudera-repos/gplextras6
 
 
 ## Create cloudera-manager.repo file under /etc/yum.repos.d/
-touch cloudera-manager.repo
-echo -n "      [cloudera-manager]
-      name=Cloudera Manager 6.0.1
-      baseurl=https://<hostname>/cloudera-repos/cm6/6.0.1/redhat7/yum/
-      gpgkey=https://<hostname>/cloudera-repos/cm6/6.0.1/redhat7/yum/RPM-GPG-KEY-cloudera
-      gpgcheck=1
-      enabled=1
-      autorefresh=0
-      type=rpm-md
-  Vm.swapiness to 1:
-     sysctl -w vm.swappiness=1" > cloudera-manager.repo
-     1) touch cloudera-manager.repo
+
+echo -n "[cloudera-manager]
+name=Cloudera Manager 6.1.1
+baseurl=https://<hostname>/cloudera-repos/cm6/6.1.1/redhat7/yum/
+gpgkey=https://<hostname>/cloudera-repos/cm6/6.1.1/redhat7/yum/RPM-GPG-KEY-cloudera
+gpgcheck=1
+enabled=1
+autorefresh=0
+type=rpm-md
+
+Vm.swapiness to 1:
+sysctl -w vm.swappiness=1"  | sudo tee -a  /etc/yum.repos.d/cloudera-manager.repo > /dev/null
+
      
 ##  Installing cloudera manager
-yum install oracle jdk
-yum list all | grep cloudera
+## yum install oracle jdk
+## yum list all | grep cloudera
 yum -y install oracle-j2sdk1.8.x86_64
 yum -y install cloudera-manager-server
 
